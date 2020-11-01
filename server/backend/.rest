@@ -1,0 +1,32 @@
+POST http://localhost:3001/events
+Content-Type: application/json
+
+{
+    "_id": "VATb6bdcOEW", 
+    "session_id": "d788bae3-6909-49a2-a54a-6d50d35b3c70",  
+    "name": "signup",  
+    "distinct_user_id": "O-5mFsaxp9",  
+    "date": "1603316369846",  
+    "os": "ios",  
+    "browser": "chrome",  
+    "geolocation": {  
+      "location": {
+        "lat": "81",
+        "lng": "86"
+      },  
+      "accuracy": "1708"
+    },  
+    "url": "http://localhost3000/signup"
+}
+
+###
+
+POST http://localhost:3001/events
+Content-Type: application/json
+
+{
+    "message": "WE ARE TERRORISTS"
+}
+
+###
+GET http://localhost:3001/events/all-filtered?search=-89&offset=3

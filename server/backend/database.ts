@@ -49,7 +49,7 @@ import {
   NotificationResponseItem,
   TransactionQueryPayload,
   DefaultPrivacyLevel,
-  Event
+  Event,
 } from "../../client/src/models";
 import Fuse from "fuse.js";
 import {
@@ -69,7 +69,6 @@ import {
   isCommentNotification,
 } from "../../client/src/utils/transactionUtils";
 import { DbSchema } from "../../client/src/models/db-schema";
-
 
 export type TDatabase = {
   users: User[];
@@ -106,6 +105,27 @@ export const seedDatabase = () => {
   // seed database with test data
   db.setState(testSeed).write();
   return;
+};
+
+export const postEvent = (newEvent: Event) => db.get(EVENT_TABLE).push(newEvent).write();
+
+export const getAllEvents = () => db.get(EVENT_TABLE).value();
+
+export const sortEvents = (events: Event[], direction: string): Event[] => {
+  console.log(direction);
+  return direction === "-date"
+    ? events.sort((a: Event, b: Event): number => b.date - a.date)
+    : events.sort((a: Event, b: Event): number => a.date - b.date);
+};
+
+export const searchValue = (event: Event | Geolocation | Location, search: string): boolean => {
+  if(Object.values(event).some(value => value.toString().match(new RegExp(search, 'gi')))) return true;
+  for (const [, value] of Object.entries(event)) {
+    if (typeof value === 'object') {
+      searchValue(value, search);
+    }
+  }
+  return false;
 };
 
 export const getAllUsers = () => db.get(USER_TABLE).value();
@@ -862,6 +882,5 @@ export const getTransactionsBy = (key: string, value: string) =>
 
 /* istanbul ignore next */
 export const getTransactionsByUserId = (userId: string) => getTransactionsBy("receiverId", userId);
-
 
 export default db;
