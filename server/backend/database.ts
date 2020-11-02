@@ -21,7 +21,7 @@ import {
   countBy,
   groupBy,
 } from "lodash/fp";
-import { isWithinInterval } from "date-fns";
+import { formatDistance, isWithinInterval } from "date-fns";
 import low from "lowdb";
 import FileSync from "lowdb/adapters/FileSync";
 import shortid from "shortid";
@@ -129,12 +129,23 @@ export const searchValue = (event: Event | Geolocation | Location, search: strin
 };
 
 export const countDates = (events: Event[]):any => {
-  let dictionary:any = {};
-  const dates: string[] = [];
-  
-  events.forEach(event => {
-    if (!dictionary[event.date]) dictionary[event.date]
-  })
+
+  const formatDate = (ms:number):string => {
+    let day = new Date(ms).getDate();
+    let month = new Date(ms).getMonth() + 1;
+    let year = new Date(ms).getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  // let dictionary:any = {};
+  // events.forEach(event => {
+  //   if (!dictionary[formatDate(event.date)]) dictionary[formatDate(event.date)] = 1;
+  //   else dictionary[formatDate(event.date)]++;
+  // })
+
+  return groupBy((event) => {
+    return formatDate(event.date);
+  }, events);
 }
 
 export const getAllUsers = () => db.get(USER_TABLE).value();
