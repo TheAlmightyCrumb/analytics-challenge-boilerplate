@@ -19,6 +19,7 @@ import {
   userFieldsValidator,
   isUserValidator,
 } from "./validators";
+import { bindAll } from "lodash";
 const router = express.Router();
 
 // Routes
@@ -29,6 +30,11 @@ interface Filter {
   browser?: string;
   search?: string;
   offset?: number;
+}
+
+interface sessionCount {
+  date: string;
+  count: number;
 }
 
 router.get('/all', (req: Request, res: Response) => {
@@ -51,7 +57,20 @@ router.get('/all-filtered', (req: Request, res: Response) => {
 });
 
 router.get('/by-days/:offset', (req: Request, res: Response) => {
-  res.send('/by-days/:offset')
+  const eventsArray = getAllEvents();
+  const today: Date = new Date();
+  const parsedDate: Date = new Date(today.toDateString());
+  console.log(parsedDate + " BAAAAA");
+  const lastDay: number = today.setDate(today.getDate() - parseInt(req.params.offset));
+  const firstDay: number = parsedDate.setDate(parsedDate.getDate() - (parseInt(req.params.offset) + 6));
+  const filteredEvents: Event[] = eventsArray.filter(event => event.date <= lastDay && event.date >= firstDay);
+  // const countSessions:sessionCount[] = [];
+  // for (let i = 0; i < eventsArray.length; i++) {
+  //   // if (countSessions)
+  // }
+  console.log("Today: ", today, " Parsed: ", parsedDate);
+  console.log('First Date: ', new Date(firstDay), ' Last Date: ', new Date(lastDay));
+  res.status(200).json(filteredEvents);
 });
 
 router.get('/by-hours/:offset', (req: Request, res: Response) => {

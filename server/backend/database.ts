@@ -128,6 +128,15 @@ export const searchValue = (event: Event | Geolocation | Location, search: strin
   return false;
 };
 
+export const countDates = (events: Event[]):any => {
+  let dictionary:any = {};
+  const dates: string[] = [];
+  
+  events.forEach(event => {
+    if (!dictionary[event.date]) dictionary[event.date]
+  })
+}
+
 export const getAllUsers = () => db.get(USER_TABLE).value();
 
 export const getAllPublicTransactions = () =>
