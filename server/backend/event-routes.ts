@@ -121,9 +121,14 @@ router.get('/week', (req: Request, res: Response) => {
 });
 
 router.get('/retention', (req: Request, res: Response) => {
-  const {dayZero} = req.query
-  res.send('/retention')
+  const { dayZero } = req.query;
+  const signupArray = getAllEvents().filter(event => event.name === 'signup') 
+  const retentionArr:weeklyRetentionObject[] = [];
+  const hourMS:number = 1000 * 60 * 60;
+  const today:number = new Date (new Date().toDateString()).getTime();
+  res.status(200).json(signupArray);
 });
+
 router.get('/:eventId',(req : Request, res : Response) => {
   res.send('/:eventId')
 });
