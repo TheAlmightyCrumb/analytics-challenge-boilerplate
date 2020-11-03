@@ -1,7 +1,7 @@
 import React from "react";
 import { Interpreter } from "xstate";
 import { AuthMachineContext, AuthMachineEvents } from "../machines/authMachine";
-import SessionsByDays from '../components/charts/SessionsByDays';
+// import SessionsByDays from '../components/charts/SessionsByDays';
 
 export interface Props {
   authService: Interpreter<AuthMachineContext, any, AuthMachineEvents, any>;
@@ -10,7 +10,7 @@ export interface Props {
 const DashBoard: React.FC = () => {
   return (
     <>
-      <SessionsByDays />
+      {/* <SessionsByDays /> */}
     </>
   );
 };
