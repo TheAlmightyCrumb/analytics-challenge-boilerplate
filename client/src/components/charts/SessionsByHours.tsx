@@ -48,13 +48,7 @@ const SessionsByHours = (props: Props) => {
 
   const [newDataArray, setNewDataArray] = useState<hourData[]>(template);
   const [newDataArray2, setNewDataArray2] = useState<hourData[]>(template);
-  const [chartData, setChartData] = useState<hourObject[]>([
-    {
-      hour: "00:00",
-      line1: 0,
-      line2: 0,
-    },
-  ]);
+  const [chartData, setChartData] = useState<hourObject[]>([]);
 
   const sortHours = (a: hourData, b: hourData): number => {
     const numA: number = parseInt(a.hour.substring(0, 2));
