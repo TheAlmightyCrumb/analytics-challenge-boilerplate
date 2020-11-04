@@ -29,4 +29,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/events/by-hours/4
+GET http://localhost:3001/events/all-filtered?sorting=%2Bdate&type=&browser=
+
+###
+GET http://localhost:3001/users/

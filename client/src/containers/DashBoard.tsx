@@ -13,7 +13,7 @@ const DashBoard: React.FC = () => {
   const [daysOffset, setDaysOffset] = useState<number>(0);
   const [hoursOffset, setHoursOffset] = useState<number[]>([0, 0]);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [sortValue, setSortValue] = useState<string>('');
+  const [sortValue, setSortValue] = useState<string>('-date');
   const [typeValue, setTypeValue] = useState<string>('');
   const [browserValue, setBrowserValue] = useState<string>('');
 
@@ -66,8 +66,8 @@ const DashBoard: React.FC = () => {
           <option value="" disabled selected hidden>
             Sort...
           </option>
-          <option value="+date">Newest</option>
-          <option value="-date">Oldest</option>
+          <option value="-date">Newest</option>
+          <option value="%2Bdate">Oldest</option>
         </select>
         <select onChange={(e) => setTypeValue(e.target.value)}>
           <option value="" disabled selected hidden>
