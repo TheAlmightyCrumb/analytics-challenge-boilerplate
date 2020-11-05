@@ -12,9 +12,10 @@ export interface Props {
 }
 
 const DashBoard: React.FC = () => {
+  const weekAgoMS = new Date().setDate(new Date().getDate() - 6);
   const [daysOffset, setDaysOffset] = useState<number>(0);
   const [hoursOffset, setHoursOffset] = useState<number[]>([0, 0]);
-  const [dayZero, setDayZero] = useState<number>(new Date().getTime());
+  const [dayZero, setDayZero] = useState<number>(weekAgoMS);
   const [searchValue, setSearchValue] = useState<string>("");
   const [sortValue, setSortValue] = useState<string>("-date");
   const [typeValue, setTypeValue] = useState<string>("");
@@ -49,8 +50,8 @@ const DashBoard: React.FC = () => {
           key="dayZero"
           type="date"
           min={new Date(1601543622678).toISOString().split("T")[0]}
-          max={new Date().toISOString().split("T")[0]}
-          defaultValue={new Date().toISOString().split("T")[0]}
+          max={new Date(weekAgoMS).toISOString().split("T")[0]}
+          defaultValue={new Date(weekAgoMS).toISOString().split("T")[0]}
           onChange={(e) => {
             setDayZero(new Date(e.target.value).getTime());
           }}
