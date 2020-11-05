@@ -1,11 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Interpreter } from "xstate";
 import { AuthMachineContext, AuthMachineEvents } from "../machines/authMachine";
+import { Event } from '../models';
 import SessionsByDays from "../components/charts/SessionsByDays";
 import SessionsByHours from "../components/charts/SessionsByHours";
 import EventLog from "../components/charts/EventLog";
 import EventMap from "../components/charts/EventMap";
 import RetentionTable from "../components/charts/RetentionTable";
+import OSUsage from "../components/charts/OSUsage";
+import PageViews from "../components/charts/PageViews";
 
 export interface Props {
   authService: Interpreter<AuthMachineContext, any, AuthMachineEvents, any>;
@@ -20,11 +23,18 @@ const DashBoard: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("-date");
   const [typeValue, setTypeValue] = useState<string>("");
   const [browserValue, setBrowserValue] = useState<string>("");
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
 
   const searchRef = useRef<any>();
   const typeRef = useRef<any>();
   const sortRef = useRef<any>();
   const browserRef = useRef<any>();
+
+  useEffect(() => {
+    fetch('http://localhost:3001/events/all')
+    .then(res => res.json())
+    .then(res => setAllEvents(res));
+  }, [])
 
   const calculateDateDiff = (date: Date): number => {
     const diffTime: number = Math.abs(new Date().getTime() - date.getTime());
@@ -59,6 +69,15 @@ const DashBoard: React.FC = () => {
         <RetentionTable dayZero={dayZero} />
       </div>
 
+      {/* container for os-usage pie chart */}
+      <div>
+        <OSUsage allEvents={allEvents} />
+      </div>
+
+      {/* container for page-views pie chart */}
+      <div>
+        <PageViews allEvents={allEvents} />
+      </div>
 
       {/* container for map */}
       <div>
