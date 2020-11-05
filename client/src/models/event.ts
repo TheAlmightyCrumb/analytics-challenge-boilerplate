@@ -25,10 +25,12 @@ export type GeoLocation = {
   location: Location;
   accuracy: number;
 };
+
 export type Location = {
   lat: number;
   lng: number;
 };
+
 export interface RetentionCohort {
   sorting: string;
   type: string;

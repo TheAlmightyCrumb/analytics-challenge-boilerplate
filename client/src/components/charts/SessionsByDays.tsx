@@ -27,7 +27,7 @@ const SessionsByDays = (props: Props) => {
       .then((res) => res.json())
       .then((res) => {
         const sortedArr = res.sort(sortDates);
-        console.log("DATA ARRAY", sortedArr);
+        // console.log("DATA ARRAY", sortedArr);
         setNewDataArray([...sortedArr]);
       });
   }, [offset]);

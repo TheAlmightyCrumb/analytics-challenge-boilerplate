@@ -51,7 +51,7 @@ const EventLog = (props: Props) => {
     fetch(`http://localhost:3001/events/all-filtered${query}&offset=${offset}`, { signal })
       .then((res) => res.json())
       .then((res) => {
-        console.log("Response: ", res);
+        // console.log("Response: ", res);
         /* setEventArray([...eventArray, ...res.events].filter((value, index) => eventArray.indexOf(value) !== index)); */
         setEventArray(res.events);
         setIsMore(res.more);
@@ -109,9 +109,9 @@ const EventLog = (props: Props) => {
     <div>
         {eventArray && eventArray.map((event, index) => {
             if (eventArray.length === index +1) {
-                return <div ref={lastEventTileRef}>{makeEventTile(event)}</div>
+                return <div key={event._id} ref={lastEventTileRef}>{makeEventTile(event)}</div>
             } else {
-                return <div>{makeEventTile(event)}</div>
+                return <div key={event._id}>{makeEventTile(event)}</div>
             }
         })}
         <div>{loading && 'Loading...'}</div>

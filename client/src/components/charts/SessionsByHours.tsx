@@ -33,13 +33,13 @@ const SessionsByHours = (props: Props) => {
     fetch(`http://localhost:3001/events/by-hours/${hoursOffset[0]}`)
       .then((res) => res.json())
       .then((res) => {
-        console.log("DATA ARRAY-1", res.sort(sortHours));
+        // console.log("DATA ARRAY-1", res.sort(sortHours));
         setNewDataArray(res.sort(sortHours));
       });
     fetch(`http://localhost:3001/events/by-hours/${hoursOffset[1]}`)
       .then((res) => res.json())
       .then((res) => {
-        console.log("DATA ARRAY-2", res.sort(sortHours));
+        // console.log("DATA ARRAY-2", res.sort(sortHours));
         setNewDataArray2(res.sort(sortHours));
       });
   }, [hoursOffset]);

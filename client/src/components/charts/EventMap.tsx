@@ -49,9 +49,9 @@ const EventMap = (props: Props) => {
         >
           <MarkerClusterer options={clusterOptions!}>
             {(clusterer) =>
-              events.map((event) => (
+              events.map((event, index) => (
                 <Marker
-                  key={event._id}
+                  key={event._id + index}
                   position={{
                     lat: event.geolocation.location.lat,
                     lng: event.geolocation.location.lng,
@@ -61,18 +61,6 @@ const EventMap = (props: Props) => {
               ))
             }
           </MarkerClusterer>
-
-          {/* {events &&
-            events.map((event) => {
-              return (
-                <Marker
-                  position={{
-                    lat: event.geolocation.location.lat,
-                    lng: event.geolocation.location.lng,
-                  }}
-                />
-              );
-            })} */}
         </GoogleMap>
       </LoadScript>
     </div>
