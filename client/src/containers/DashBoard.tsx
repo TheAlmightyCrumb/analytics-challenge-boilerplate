@@ -10,7 +10,6 @@ import EventMap from "../components/charts/EventMap";
 import RetentionTable from "../components/charts/RetentionTable";
 import OSUsage from "../components/charts/OSUsage";
 import PageViews from "../components/charts/PageViews";
-import { StringLiteral } from "typescript";
 
 export interface Props {
   authService: Interpreter<AuthMachineContext, any, AuthMachineEvents, any>;
