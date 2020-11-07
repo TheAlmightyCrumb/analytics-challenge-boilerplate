@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Event } from "../../models";
-import { PieChart, Pie, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 interface Props {
   allEvents: Event[];
@@ -22,8 +22,8 @@ const PageViews = (props: Props) => {
     const colors = ["#003049", "#D62828", "#F77F00", "#FCBF49", "#EAE2B7", "#3241AE"];
 
     return (
-        <div>
-          <PieChart width={600} height={450}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
             {dataArray &&
               dataArray
                 .sort((a, b) => b.value - a.value)
@@ -36,8 +36,8 @@ const PageViews = (props: Props) => {
                       animationBegin={500}
                       animationDuration={1500}
                       data={[dataArray[index]]}
-                      cx={200}
-                      cy={200}
+                      cx="50%"
+                      cy="50%"
                       outerRadius={100 - 20 * index}
                       fill={colors[index]}
                       blendStroke
@@ -49,7 +49,7 @@ const PageViews = (props: Props) => {
             <Legend verticalAlign="middle" layout="vertical" align="left" iconSize={10} iconType="circle" />
             <Tooltip />
           </PieChart>
-        </div>
+        </ResponsiveContainer>
       );
     };
 

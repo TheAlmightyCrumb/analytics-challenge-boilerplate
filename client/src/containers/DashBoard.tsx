@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Interpreter } from "xstate";
 import { AuthMachineContext, AuthMachineEvents } from "../machines/authMachine";
 import { Event } from '../models';
+import styled, { createGlobalStyle, css } from 'styled-components';
 import SessionsByDays from "../components/charts/SessionsByDays";
 import SessionsByHours from "../components/charts/SessionsByHours";
 import EventLog from "../components/charts/EventLog";
@@ -9,6 +10,7 @@ import EventMap from "../components/charts/EventMap";
 import RetentionTable from "../components/charts/RetentionTable";
 import OSUsage from "../components/charts/OSUsage";
 import PageViews from "../components/charts/PageViews";
+import { StringLiteral } from "typescript";
 
 export interface Props {
   authService: Interpreter<AuthMachineContext, any, AuthMachineEvents, any>;
@@ -52,10 +54,64 @@ const DashBoard: React.FC = () => {
     browserRef.current.value = "";
   };
 
+  interface containerProps {
+    direction: "column" | "row";
+    width?: string;
+    height?: string;
+    order?: number;
+  }
+  
+  interface tileProps {
+    order?: number;
+    width?: string;
+    height?: string;
+    minHeight?: string;
+    minWidth?: string;
+    backgroundColor?: string;
+    padding?: string;
+  }
+  
+  const Container = styled.div<containerProps>`
+    display: flex;
+    flex-flow: ${(props) => props.direction} wrap;
+    width: ${(props) => props.width};
+    height: ${(props) => props.height};
+    order: ${(props) => props.order};
+    justify-content: space-evenly;
+    align-items: center;
+  `;
+  
+  const Tile = styled.div<tileProps>`
+    height: ${(props) => props.height};
+    width: ${(props) => props.width};
+    min-height: ${(props) => props.minHeight};
+    min-width: ${(props) => props.minWidth};
+    order: ${(props) => props.order};
+    resize: both;
+    overflow: hidden;
+    background-color: ${(props) => props.backgroundColor};
+    border: 2px solid black;
+    padding: ${(props) => props.padding};
+  `;
+
   return (
     <>
+      <Container direction="row" height="100vh" width="80vw">
+
+    <Container order={3} direction="row" width="100%" height="100%">
+      {/* container for os-usage pie chart */}
+      <Tile order={1} min-width="375px" min-height="275px" width="375px" height="275px">
+        <OSUsage allEvents={allEvents} />
+      </Tile>
+
+      {/* container for page-views pie chart */}
+      <Tile order={2} min-width="375px" min-height="275px" width="40%" height="275px">
+        <PageViews allEvents={allEvents} />
+      </Tile>
+      </Container>
+
       {/* container for retention table */}
-      <div>
+      <Tile order={4} min-width="100%" min-height="100%" padding="10px">
         <input
           key="dayZero"
           type="date"
@@ -67,25 +123,15 @@ const DashBoard: React.FC = () => {
           }}
         />
         <RetentionTable dayZero={dayZero} />
-      </div>
-
-      {/* container for os-usage pie chart */}
-      <div>
-        <OSUsage allEvents={allEvents} />
-      </div>
-
-      {/* container for page-views pie chart */}
-      <div>
-        <PageViews allEvents={allEvents} />
-      </div>
+      </Tile>
 
       {/* container for map */}
-      <div>
-        <EventMap />
-      </div>
+      <Tile order={1} width="65vw" min-height="400px" height="500px">
+        <EventMap mapHeight="100vh" mapWidth="100vw" />
+      </Tile>
 
       {/* container for session by days */}
-      <div>
+      <Tile order={5} min-width="400px" min-height="250px" height="45%" width="40%" padding="10px">
         <input
           key="daysOffset"
           type="date"
@@ -96,10 +142,10 @@ const DashBoard: React.FC = () => {
           }}
         />
         <SessionsByDays offset={daysOffset} />
-      </div>
+      </Tile>
 
       {/* container for session by hours */}
-      <div>
+      <Tile order={6}>
         <input
           key="hoursOffset1"
           type="date"
@@ -119,10 +165,10 @@ const DashBoard: React.FC = () => {
           }}
         />
         <SessionsByHours hoursOffset={hoursOffset} />
-      </div>
+      </Tile>
 
       {/* container for event log */}
-      <div>
+      <Tile order={7}>
         <input
           key="search"
           placeholder="Search..."
@@ -173,7 +219,9 @@ const DashBoard: React.FC = () => {
           browser={browserValue}
           search={searchValue}
         />
-      </div>
+      </Tile>
+
+      </Container>
     </>
   );
 };
