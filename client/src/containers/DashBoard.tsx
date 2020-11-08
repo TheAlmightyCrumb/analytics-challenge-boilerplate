@@ -67,6 +67,8 @@ const DashBoard: React.FC = () => {
     height?: string;
     minHeight?: string;
     minWidth?: string;
+    maxHeight?: string;
+    maxWidth?: string;
     backgroundColor?: string;
     padding?: string;
   }
@@ -77,7 +79,7 @@ const DashBoard: React.FC = () => {
     width: ${(props) => props.width};
     height: ${(props) => props.height};
     order: ${(props) => props.order};
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
   `;
 
@@ -86,9 +88,11 @@ const DashBoard: React.FC = () => {
     width: ${(props) => props.width};
     min-height: ${(props) => props.minHeight};
     min-width: ${(props) => props.minWidth};
+    max-height: ${props => props.maxHeight};
+    max-width: ${props => props.maxWidth};
     order: ${(props) => props.order};
     resize: both;
-    overflow: hidden;
+    overflow: auto;
     background-color: ${(props) => props.backgroundColor};
     border: 2px solid black;
     padding: ${(props) => props.padding};
@@ -97,18 +101,18 @@ const DashBoard: React.FC = () => {
   return (
     <>
       <Container direction="row" height="100vh" width="80vw">
-        
+
         <Container order={3} direction="row" width="100%" height="100%">
           {/* container for os-usage pie chart */}
           <ErrorBoundary>
-            <Tile order={1} min-width="375px" min-height="275px" width="375px" height="275px">
+            <Tile order={1} minWidth="40%" minHeight="250px" width="50%" height="300px" maxWidth="50%" maxHeight="350px">
               <OSUsage allEvents={allEvents} />
             </Tile>
           </ErrorBoundary>
 
           {/* container for page-views pie chart */}
           <ErrorBoundary>
-            <Tile order={2} min-width="375px" min-height="275px" width="40%" height="275px">
+            <Tile order={2} minWidth="40%" minHeight="250px" width="50%" height="300px" maxWidth="50%" maxHeight="350px">
               <PageViews allEvents={allEvents} />
             </Tile>
           </ErrorBoundary>
@@ -188,7 +192,7 @@ const DashBoard: React.FC = () => {
 
         {/* container for event log */}
         <ErrorBoundary>
-          <Tile order={7}>
+          <Tile order={7} maxHeight="400px">
             <input
               key="search"
               placeholder="Search..."
